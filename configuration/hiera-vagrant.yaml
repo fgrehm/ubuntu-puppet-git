@@ -1,0 +1,10 @@
+:backends:
+- yaml
+
+:hierarchy:
+  - "%{hostname}"
+  - site
+  - default
+
+:yaml:
+  :datadir: /tmp/vagrant-hiera/data

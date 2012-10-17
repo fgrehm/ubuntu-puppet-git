@@ -1,0 +1,3 @@
+# This file should contain your servers' configurations and that latter be
+# overridden per host depeding on hierarchy defined on "configuration/hiera.yaml"
+# and "configuration/hiera-vagrant.yaml"

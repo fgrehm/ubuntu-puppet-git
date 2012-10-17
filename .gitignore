@@ -1,0 +1,10 @@
+.tmp/
+.librarian/
+.vagrant
+.rake_t_cache
+.rbenv-version
+.vimrc
+
+/spec/fixtures/project/scripts/apply-manifests
+
+/modules

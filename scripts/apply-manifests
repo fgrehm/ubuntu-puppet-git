@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -o pipefail
+
+function msg    { echo -e "\E[${COLOR}m$@\E[0m" >&2 ; }
+function notice { COLOR="0;36" msg "NOTICE: $@" ; }
+function error  { COLOR="0;31" msg "ERROR: $@" ; }
+
+exit_with_error() {
+  git tag "$(date +%Y-%m-%d-%H-%M)-failed" && git push --tags 1>/dev/null 2>/dev/null
+  error $2
+  exit $1
+}
+
+WORKING_DIR=`pwd`
+
+PUPPET_VALIDATE_CMD='xargs --no-run-if-empty puppet parser validate'
+PUPPET_MANIFEST="${WORKING_DIR}/manifests/site.pp"
+PUPPET_HIERA_CONFIG="${WORKING_DIR}/configuration/hiera.yaml"
+PUPPET_FILE="${WORKING_DIR}/Puppetfile"
+
+
+if [ ! -e $PUPPET_MANIFEST ] ; then
+  exit_with_error 1 'No puppet manifest detected'
+fi
+
+if [ ! -e $PUPPET_HIERA_CONFIG ] ; then
+  exit_with_error 1 'No hiera config detected'
+fi
+
+if [ ! -e $PUPPET_FILE ] ; then
+  exit_with_error 1 'No Puppetfile detected'
+fi
+
+
+notice 'Installing puppet modules using librarian-puppet'
+librarian-puppet install
+
+
+notice 'Validating puppet manifests syntax'
+validate_cmd='xargs --no-run-if-empty puppet parser validate'
+if ! find $WORKING_DIR -name "*.pp" | $PUPPET_VALIDATE_CMD |& sed -u "s,$WORKING_DIR/,,g" ; then
+  exit_with_error 1 'Encountered a problem validating the puppet manifests'
+fi
+
+
+notice 'Applying puppet manifests'
+sudo -H puppet apply --detailed-exitcodes --modulepath=modules/ --templatedir=templates/ --hiera_config=configuration/hiera.yaml manifests/site.pp
+
+PUPRET=$?
+if ! [ $PUPRET -eq 0 -o $PUPRET -eq 2 ] ; then
+  exit_with_error 1 'Encountered a problem applying the puppet manifest'
+else
+  git tag "$(date +%Y-%m-%d-%H-%M)" && git push --tags 1>/dev/null 2>/dev/null
+  notice 'Puppet manifests applied successfully'
+fi

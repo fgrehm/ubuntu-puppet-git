@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+function msg    { echo -e "\E[${COLOR}m$@\E[0m" >&2 ; }
+function notice { COLOR="0;36" msg "NOTICE: $@" ; }
+
+
+
+notice 'Installing curl and rubygems'
+
+sudo apt-get install --yes --force-yes curl rubygems
+
+
+
+notice 'Installing rake, bundler, puppet and librarian-puppet'
+
+sudo gem install rake bundler puppet librarian-puppet --no-ri --no-rdoc
+
+
+
+notice 'Installing git'
+
+sudo apt-get install --yes --force-yes git-core
+
+
+
+notice 'Setting up puppet-git user'
+
+PGRHOME=/var/lib/puppet-git-receiver
+PGRUSER=puppet-git
+
+sudo adduser --system --quiet --home "$PGRHOME" --no-create-home  --disabled-password --shell /usr/bin/git-shell --group "$PGRUSER"
+sudo groupadd -f puppet
+
+sudo mkdir -p $PGRHOME/.ssh
+# TODO: This needs an automated test
+if [ -e /tmp/puppet-git-key ]; then
+  AUTHORIZED_KEYS=/tmp/puppet-git-key
+else
+  AUTHORIZED_KEYS=$HOME/.ssh/authorized_keys
+fi
+sudo cp $AUTHORIZED_KEYS $PGRHOME/.ssh/authorized_keys
+sudo chmod 600 $PGRHOME/.ssh/authorized_keys
+sudo chmod 750 $PGRHOME
+sudo chown -R $PGRUSER.$PGRUSER $PGRHOME
+
+echo 'puppet-git	ALL=NOPASSWD: SETENV:/usr/local/bin/puppet' | sudo tee /etc/sudoers.d/puppet-git-receiver
+sudo chmod 0440 /etc/sudoers.d/puppet-git-receiver
+sudo service sudo restart
+
+
+
+notice 'Setting up git repository'
+
+REPOPATH="$PGRHOME/puppet.git"
+sudo mkdir -p $REPOPATH
+HOOKSPATH=$REPOPATH/hooks/
+if [ ! -d "$HOOKSPATH" ] ; then
+  sudo git init --bare $REPOPATH
+fi
+
+# TODO: Fail if file is not present
+if ! [ -e /tmp/git-post-update-hook ]; then
+  # Downloads to a tmp folder in order to allow us to override from specs
+  sudo wget https://raw.github.com/fgrehm/ubuntu-server-puppet/master/scripts/git-post-update-hook -O /tmp/git-post-update-hook
+fi
+sudo cp /tmp/git-post-update-hook $PGRHOME/git-post-update-hook
+sudo ln -fns $PGRHOME/git-post-update-hook "${HOOKSPATH}post-update"
+sudo chmod +x "${HOOKSPATH}post-update"
+
+sudo chown -R $PGRUSER.$PGRUSER $REPOPATH

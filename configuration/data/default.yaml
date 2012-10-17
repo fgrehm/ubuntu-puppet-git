@@ -1,0 +1,4 @@
+# This file should contain the default configurations to be used on multiple
+# servers and for testing locally using Vagrant. Look at "configuration/hiera.yaml"
+# and "configuration/hiera-vagrant.yaml" to find out how hiera will look up
+# configurations

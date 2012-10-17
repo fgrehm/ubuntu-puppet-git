@@ -1,0 +1,35 @@
+#!/bin/bash
+
+unset GIT_DIR
+
+function msg    { echo -e "\E[${COLOR}m$@\E[0m" >&2 ; }
+function notice { COLOR="0;36" msg "NOTICE: $@" ; }
+
+if [[ "${1}" =~ ^refs\/tags\/ ]]; then
+  notice 'Tag received, skipping manifests'
+  exit 0
+fi
+
+PGRHOME=/var/lib/puppet-git-receiver
+WORKING_DIR=${PGRHOME}/code
+GIT_REPO=${PGRHOME}/puppet.git
+
+if ! [ -d "${WORKING_DIR}/.git" ]; then
+  notice 'Recreating working directory'
+  git clone $GIT_REPO $WORKING_DIR
+  cd $WORKING_DIR
+
+  git checkout deploy
+else
+  # Initial directory is /var/lib/puppet-git-receiver/puppet.git, so go to the working copy directory
+  cd $WORKING_DIR
+
+  # Add everything to the index and then reset hard to both sweep changed files
+  # and update the working copy.
+  notice  'Updating working folder'
+  git add .
+  git fetch
+  git reset --hard origin/deploy
+fi
+
+$WORKING_DIR/scripts/apply-manifests
