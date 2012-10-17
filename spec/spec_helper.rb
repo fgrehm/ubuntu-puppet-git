@@ -1,3 +1,5 @@
+require 'vagrant'
+
 Dir['./spec/support/**/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
@@ -6,4 +8,7 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.order = 'random'
   #config.order = 'rand:3455'
+
+  config.include TestVM
+  config.include PuppetGit
 end

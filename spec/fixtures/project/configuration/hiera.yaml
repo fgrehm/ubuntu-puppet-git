@@ -1,0 +1,8 @@
+:backends:
+- yaml
+
+:hierarchy:
+  - site
+
+:yaml:
+  :datadir: /var/lib/puppet-git-receiver/code/configuration/data
