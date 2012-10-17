@@ -1,6 +1,10 @@
 source :rubygems
 
+gem 'rake'
+
 gem "librarian-puppet"
+
+gem "puppet-lint"
 
 gem "vagrant", '>= 1.0'
 gem "vagrant-hiera"
