@@ -18,8 +18,6 @@ if ! [ -d "${WORKING_DIR}/.git" ]; then
   notice 'Recreating working directory'
   git clone $GIT_REPO $WORKING_DIR
   cd $WORKING_DIR
-
-  git checkout deploy
 else
   # Initial directory is /var/lib/puppet-git-receiver/puppet.git, so go to the working copy directory
   cd $WORKING_DIR
@@ -29,7 +27,7 @@ else
   notice  'Updating working folder'
   git add .
   git fetch
-  git reset --hard origin/deploy
+  git reset --hard origin/master
 fi
 
 $WORKING_DIR/scripts/apply-manifests
