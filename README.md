@@ -32,7 +32,7 @@ the Puppet manifests will be applied using the script at `scripts/apply-manifest
 
 ## Testing changes locally before pushing
 
-    TODO
+More info coming soon...
 
 
 ## Acknowledgement
