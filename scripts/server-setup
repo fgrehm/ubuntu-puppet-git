@@ -16,7 +16,7 @@ sudo apt-get install --yes --force-yes git-core rubygems
 
 notice 'Installing rake, bundler, puppet and librarian-puppet'
 
-sudo gem install rake bundler puppet librarian-puppet --no-ri --no-rdoc
+sudo gem install puppet librarian-puppet --no-ri --no-rdoc
 
 
 
