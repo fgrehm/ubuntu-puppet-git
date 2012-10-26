@@ -54,40 +54,8 @@ describe 'Deployment using git' do
     end
   end
 
-  context 'tagging' do
-    before :each do
-      cleanup!
-      `cp -r #{fixture_path}/* #{test_repo_path}`
-
-      Dir.chdir test_repo_path do
-        init_and_push_repo
-        `git fetch 2>/dev/null`
-        raise 'Unable to fetch tags' unless $?.exitstatus == 0
-      end
-    end
-
-    it 'tags successful deploys' do
-      Dir.chdir test_repo_path do
-        tags = `git tag | awk 'END {print NR}'`.strip
-        tags.should == '1'
-      end
-    end
-
-    it 'tags failed deploys' do
-      Dir.chdir test_repo_path do
-        `echo "error" > manifests/site.pp`
-        commit_and_push_repo
-
-        `git fetch 2>/dev/null`
-        raise 'Unable to fetch tags' unless $?.exitstatus == 0
-
-        `git tag`.should =~ /^[0-9\-]+-failed$/
-      end
-    end
-  end
-
   def cleanup!
-    run("sudo rm -rf #{remote_working_dir} && sudo rm -rf #{remote_repo_path}/refs/tags", :error_check => true)
+    run("sudo rm -rf #{remote_working_dir}", :error_check => true)
     `rm -rf #{test_repo_path}` if Dir.exist? test_repo_path
     `mkdir -p #{test_repo_path}`
   end

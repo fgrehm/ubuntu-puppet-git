@@ -7,7 +7,6 @@ function notice { COLOR="0;36" msg "NOTICE: $@" ; }
 function error  { COLOR="0;31" msg "ERROR: $@" ; }
 
 exit_with_error() {
-  git tag "$(date +%Y-%m-%d-%H-%M)-failed" && git push --tags 1>/dev/null 2>/dev/null
   error $2
   exit $1
 }
@@ -51,6 +50,5 @@ PUPRET=$?
 if ! [ $PUPRET -eq 0 -o $PUPRET -eq 2 ] ; then
   exit_with_error 1 'Encountered a problem applying the puppet manifest'
 else
-  git tag "$(date +%Y-%m-%d-%H-%M)" && git push --tags 1>/dev/null 2>/dev/null
   notice 'Puppet manifests applied successfully'
 fi
