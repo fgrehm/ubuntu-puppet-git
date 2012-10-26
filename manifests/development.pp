@@ -1,5 +1,5 @@
 # Vagrant specific definitions
 
-import 'base.pp'
+import 'site.pp'
 
-node development inherits base { }
+node development inherits site { }
