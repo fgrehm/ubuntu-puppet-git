@@ -1,4 +1,4 @@
-# Ubuntu Server Puppet
+# Ubuntu Puppet Git
 
 Easy set up and management for Ubuntu 12.04 Server boxes using Puppet 3.0 and
 a Git repository.
@@ -20,14 +20,15 @@ Clone the project and run `rake setup:server` to configure your local machine
 and bootstrap the server.
 
 Please note that the
-[server setup script](https://github.com/fgrehm/ubuntu-server-puppet/blob/master/scripts/server-setup)
+[server setup script](https://github.com/fgrehm/ubuntu-puppet-git/blob/master/scripts/server-setup)
 was tested on a clean Linode Ubuntu 12.04 box, make sure you read it before trying
 on a different distro or on an existing box.
 
-If everything goes fine, your `origin` repository will be set to the remote
-machine and you can add Puppet modules to your `Puppetfile` and edit the manifests
-at the `manifests` folder. Every time you push your changes to the remote repo,
-the Puppet manifests will be applied using the script at `scripts/apply-manifests`.
+If everything goes fine, the script will output the URL that you can use to set up
+your remote repository on the server. You can then add Puppet modules to your
+`Puppetfile` and edit the manifests at the `manifests` folder. Every time you
+push your changes to the remote repo, the Puppet manifests will be applied using
+the script at `scripts/apply-manifests`.
 
 
 ## Testing changes locally before pushing
