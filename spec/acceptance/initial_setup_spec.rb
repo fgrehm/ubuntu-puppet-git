@@ -10,8 +10,8 @@ describe 'Initial setup script' do
     run("dpkg -l rubygems | grep -q -E 'ii\s+rubygems'", :error_check => true)
   end
 
-  it 'installs puppet 3.0.0 as a gem' do
-    run('puppet --version').should == '3.0.0'
+  it 'installs puppet 3.0 as a gem' do
+    run('puppet --version').should =~ /^3\.0/
     # It would be available from /usr/bin/puppet if was installed as a package
     run('which puppet').should == '/usr/local/bin/puppet'
   end
@@ -32,8 +32,6 @@ describe 'Initial setup script' do
       run("sudo stat --format=%a #{remote_repo_path}/hooks/post-update").should =~ /^7/
       run("sudo readlink #{remote_repo_path}/hooks/post-update").should == "#{git_puppet_home}/git-post-update-hook"
     end
-
-    it 'sets up a git update hook'
 
     it 'sets up git access for puppet-git user' do
       Dir.chdir sample_repo_path do
