@@ -21,10 +21,4 @@ Vagrant::Config.run do |config|
       puppet.options << [ '--debug --verbose' ] if ENV['DEBUG'] == '1'
     end
   end
-
-  config.vm.define :test do |test|
-    test.vm.box = "precise64"
-    test.vm.box_url = "http://files.vagrantup.com/precise64.box"
-    test.vm.host_name = "test"
-  end
 end

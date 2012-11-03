@@ -1,6 +1,3 @@
-# TODO: Find out what this can do for us
-# https://github.com/mitchellh/vagrant/blob/master/lib/vagrant/test_helpers.rb
-
 module TestVM
   def vm_powered_on?
     test_vm.state == :running
@@ -38,7 +35,7 @@ module TestVM
   end
 
   def vagrant_env
-    @vagrant_env ||= Vagrant::Environment.new
+    @vagrant_env ||= Vagrant::Environment.new(:vagrantfile_name => "Vagrantfile-rspec")
   end
 
   def run(cmd, opts = {})
