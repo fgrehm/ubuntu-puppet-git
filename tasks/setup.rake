@@ -34,7 +34,7 @@ namespace :setup do
     sh "scp -P #{ssh_port} #{Dir.pwd}/scripts/git-post-update-hook #{setup_user}@#{server}:/tmp/git-post-update-hook"
     sh "ssh -p #{ssh_port} #{setup_user}@#{server} 'chmod +x #{remote_setup_script} && #{remote_setup_script}'"
 
-    puts 'You can now add the server as a git remote and start pushing your manifests:'
+    puts "\n\nYou can now add the server as a git remote and start pushing your manifests:"
     puts "  git remote add server ssh://puppet-git@#{server}:#{ssh_port}/var/lib/puppet-git-receiver/puppet.git"
   end
 end
