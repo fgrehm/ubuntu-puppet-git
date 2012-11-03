@@ -22,3 +22,7 @@ Vagrant::Config.run do |config|
     end
   end
 end
+
+# I couldn't find out whats the switch for telling vagrant to load another
+# Vagrantfile...
+load 'Vagrantfile-rspec' if ENV['LOAD_RSPEC']
