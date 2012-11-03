@@ -23,7 +23,7 @@ namespace :setup do
 
   desc 'Configures project for use with remote server'
   task :server do
-    server     = ask("What's the server IP or ULR?")
+    server     = ask("What's the server IP or URL?")
     setup_user = ask('Which user will be used for setting up the server?', 'root')
     ssh_port   = ask('Which SSH port should be used for setting up the server?', 22)
     puppet_key = read_ssh_key_file('Which SSH key you want to use to manage the remote server repository?')
