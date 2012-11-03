@@ -17,7 +17,8 @@ modules your infrastructure depend on.
 ## Usage
 
 Clone the project and run `rake setup:server` to configure your local machine
-and bootstrap the server.
+and bootstrap the server. Please note that if you will be asked for the password
+a few times, thats fine.
 
 Please note that the
 [server setup script](https://github.com/fgrehm/ubuntu-puppet-git/blob/master/scripts/server-setup)
