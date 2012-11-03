@@ -2,4 +2,4 @@
 
 import 'site.pp'
 
-node development inherits site { }
+node development inherits default { }
