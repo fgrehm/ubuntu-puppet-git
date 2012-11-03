@@ -11,7 +11,7 @@ module TestVM
 
     puts "Recreating test VM"
 
-    test_vm.destroy
+    test_vm.destroy if test_vm.created?
     test_vm.up
 		key = Dir["#{ENV['HOME']}/.ssh/id_{r,d}sa.pub"].first
     vm_channel.upload key, '/tmp/puppet-git-key'
