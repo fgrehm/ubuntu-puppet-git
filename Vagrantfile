@@ -8,6 +8,8 @@ Vagrant::Config.run do |config|
 
     dev.vm.host_name = "development"
 
+    dev.vm.forward_port 80, 8080
+
     dev.hiera.config_path       = './configuration'
     dev.hiera.config_file       = 'hiera-vagrant.yaml'
     dev.hiera.data_path         = './configuration/data'
