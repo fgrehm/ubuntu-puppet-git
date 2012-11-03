@@ -18,6 +18,7 @@ describe 'Initial setup script' do
 
   it 'installs librarian-puppet gem' do
     run('which librarian-puppet').should == '/usr/local/bin/librarian-puppet'
+    run('librarian-puppet version').should =~ /v0\.9\.\d+$/
   end
 
   context 'git' do
