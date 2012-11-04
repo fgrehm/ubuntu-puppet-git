@@ -10,6 +10,7 @@ function notice { COLOR="0;36" msg "NOTICE: $@" ; }
 
 notice 'Installing git and rubygems'
 
+sudo apt-get update
 sudo apt-get install --yes --force-yes git-core rubygems
 
 
