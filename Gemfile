@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake'
 
-gem 'librarian-puppet'
+gem 'librarian-puppet-maestrodev'
 
 gem 'puppet-lint'
 
