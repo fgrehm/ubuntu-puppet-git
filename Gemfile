@@ -1,12 +1,12 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'rake'
 
-gem "librarian-puppet"
+gem 'librarian-puppet-maestrodev'
 
-gem "puppet-lint"
+gem 'puppet-lint'
 
 gem 'rspec'
 
-gem "vagrant", '>= 1.0'
-gem "vagrant-hiera"
+gem 'vagrant', '>= 1.0'
+gem 'vagrant-hiera'
