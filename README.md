@@ -3,6 +3,8 @@
 Easy set up and management for Ubuntu 12.04 Server boxes using Puppet 3.0 and
 a Git repository.
 
+**NO LONGER BEING MAINTAINED**
+
 
 ## Overview
 
